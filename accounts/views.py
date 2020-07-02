@@ -38,6 +38,13 @@ def locations(request):
     context = {'entry': entry, 'entryFilter': entryFilter}
     return render(request, 'accounts/locations.html', context)
 
+@login_required(login_url='login')
+
+def viewlocations(request, pk):
+    entry = Entry.objects.get(id=pk)
+    context = {'entry': entry}
+    return render(request, 'accounts/viewlocations.html', context)
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
