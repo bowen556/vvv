@@ -190,6 +190,7 @@ class Environmental_DetailsForm(forms.ModelForm):
 
 
 class Entry(models.Model):
+    Location_Name = models.CharField(max_length=200, null=True)
     locations = models.EmbeddedModelField(
         model_container=(Locations),
         model_form_class=LocationsForm
