@@ -5,15 +5,17 @@ from django.contrib.auth.models import User
 
 
 class UserFilter(django_filters.FilterSet):
-    username = CharFilter(field_name='username', lookup_expr = 'icontains')
+    username = CharFilter(field_name='username', lookup_expr='icontains')
 
     class Meta:
         model = User
         fields = ('username',)
 
-class EntryFilter(django_filters.FilterSet):
-     locations = CharFilter(field_name='locations', lookup_expr = 'icontains')
 
-     class Meta:
+class EntryFilter(django_filters.FilterSet):
+    locations = CharFilter(field_name='Location_Name', lookup_expr='icontains')
+
+    class Meta:
         model = Entry
+        # model = Locations
         fields = ('locations',)
