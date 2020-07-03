@@ -19,6 +19,7 @@ class Locations(models.Model):
     Is_local_piloting_assistance_required = models.CharField(max_length=1000, null=True, blank=True)
     Are_tugs_required = models.CharField(max_length=1000, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+    locations_pic = models.ImageField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -250,7 +251,7 @@ class Entry(models.Model):
         model_container=(Environmental_Details),
         model_form_class=Environmental_DetailsForm
     )
-
+    locations_pic = models.ImageField(null=True, blank=True)
 
     objects = models.DjongoManager()
 
