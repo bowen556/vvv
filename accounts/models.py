@@ -256,6 +256,8 @@ class Entry(models.Model):
         model_form_class=Environmental_DetailsForm
     )
     locations_pic = models.ImageField(null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True)
+
 
     objects = models.DjongoManager()
 
