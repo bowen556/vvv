@@ -1,6 +1,6 @@
 {% extends 'accounts/main.html' %}
 {% block content %}
-
+{% include 'accounts/map.html'%}
     <br>
 
 		<div class="row">
@@ -23,6 +23,18 @@
 								<td>STS Position:</td>
 								<td>
 									{{entry.locations.STS_position}}
+								</td>
+							</tr>
+							<tr>
+								<td>STS_longitude_Position:</td>
+								<td>
+									{{entry.locations.STS_longitude_position}}
+								</td>
+							</tr>
+							<tr>
+								<td>STS_lautitude_Position:</td>
+								<td>
+									{{entry.locations.STS_lautitude_position}}
 								</td>
 							</tr>
 							<tr>
