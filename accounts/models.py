@@ -207,6 +207,8 @@ class Entry(models.Model):
         model_form_class=Equipment_DetailsForm
     )
 
+    Agent_Company = models.CharField(max_length=200, null=True)
+
     agent_details = models.EmbeddedModelField(
         model_container=(Agent_Details),
         model_form_class=Agent_DetailsForm
@@ -226,6 +228,8 @@ class Entry(models.Model):
         model_container=(Support_Craft_Details),
         model_form_class=Support_Craft_DetailsForm
     )
+
+    Provider_company = models.CharField(max_length=200, null=True)
 
     tug_provider_details = models.EmbeddedModelField(
         model_container=(Tug_Provider_Details),
