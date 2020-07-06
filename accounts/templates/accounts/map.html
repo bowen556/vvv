@@ -12,7 +12,7 @@
     var map = new mapboxgl.Map({
      container: 'map',
      style: 'mapbox://styles/mapbox/satellite-streets-v10',
-     center: [{{entry.locations.STS_longitude_position}}, {{entry.locations.STS_lautitude_position}}],
+     center: [{{entry.locations.STS_latitude}}, {{entry.locations.STS_longitude}}],
      zoom: 9,
      bearing: 180,
      light: {
