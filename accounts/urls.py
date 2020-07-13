@@ -10,6 +10,8 @@ urlpatterns = [
     path('admin/accounts/entry/add/', views.createLocations, name="create_locations"),
     path('register/', views.registerPage, name="register"),
     path('login/', views.loginPage, name="login"),
+    path('login2/', views.login2, name="login2"),
+    path('login3/', views.login3, name="login3"),
     path('logout/', views.logoutUser, name="logout"),
     path('user_profile/', views.userProfile, name="profile"),
 
