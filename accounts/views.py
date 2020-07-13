@@ -30,7 +30,6 @@ def home(request):
 
 
 @login_required(login_url='login')
-
 def locations(request):
     entry = Entry.objects.all()
     entryFilter = EntryFilter(request.GET, queryset=entry)
@@ -38,8 +37,8 @@ def locations(request):
     context = {'entry': entry, 'entryFilter': entryFilter}
     return render(request, 'accounts/locations.html', context)
 
-@login_required(login_url='login')
 
+@login_required(login_url='login')
 def viewlocations(request, pk):
     entry = Entry.objects.get(id=pk)
     context = {'entry': entry}
@@ -89,19 +88,66 @@ def registerPage(request):
     return render(request, 'accounts/register.html', context)
 
 
+def login3(request):
+    messages.info(request, 'Username or password wrong, you have last chance.')
+    if request.method == "POST":
+        username = request.POST.get('username')  # Get username input first
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
+        if username in BL:  # Check if the username is in blacklist
+            messages.info(request, 'Username in black list, please contact admin')
+        else:  # Not in black list username can go to login
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                BlackList.objects.create(list=username)
+                # Put the username in to BlackList
+                messages.info(request, 'Username in black list now, please contact admin')
+
+    context = {}
+    return render(request, 'accounts/login3.html', context)
+
+
+def login2(request):
+    messages.info(request, 'Username or password wrong, you have 2 chances.')
+    if request.method == "POST":
+        username = request.POST.get('username')  # Get username input first
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
+        if username in BL:  # Check if the username is in blacklist
+            messages.info(request, 'Username in black list, please contact admin')
+        else:  # Not in black list username can go to login
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('/login3')
+
+    context = {}
+    return render(request, 'accounts/login2.html', context)
+
+
 @unauthenticated_user
 def loginPage(request):
     if request.method == "POST":
-        username = request.POST.get('username')
+        username = request.POST.get('username')  # Get username input first
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
+        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
+        if username in BL:  # Check if the username is in blacklist
+            messages.info(request, 'Username in black list, please contact admin')
+        else:  # Not in black list username can go to login
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request, 'Username or Password is incorrect')
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                return redirect('/login2')
 
     context = {}
     return render(request, 'accounts/login.html', context)
@@ -113,14 +159,7 @@ def logoutUser(request):
 
 
 @login_required(login_url='login')
-
 def userProfile(request):
     user = User.objects.all()
-    context = {'user' :user }
+    context = {'user': user}
     return render(request, 'accounts/user_profile.html', context)
-
-
-
-
-
-

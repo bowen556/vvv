@@ -17,7 +17,8 @@ class EntryFilter(django_filters.FilterSet):
     AgentCompany = CharFilter(field_name='Agent_Company', lookup_expr='icontains')
     ProviderCompany = CharFilter(field_name='Provider_company', lookup_expr='icontains')
 
+
     class Meta:
         model = Entry
-        # model = Locations
+
         fields = ('locations', 'AgentCompany', 'ProviderCompany')
