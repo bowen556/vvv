@@ -77,17 +77,29 @@ def login3(request):
         username = request.POST.get('username')  # Get username input first
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
-        if username in BL:  # Check if the username is in blacklist
-            messages.info(request, 'Username in black list, please contact admin')
-        else:  # Not in black list username can go to login
+        BL = BlackList.objects.values_list('username', flat=True)  # Read all data into array
 
+        if username not in BL:  # Check if the username is in blacklist
+            messages.info(request, 'You should not be here.')
+            return redirect('/login')
+
+        black_list_user = BlackList.objects.get(username=username)
+
+        if black_list_user.flag3 is True:
+            messages.info(request, 'Username in black list now, please contact admin.')
+        elif black_list_user.flag2 is False:  # Check if the username is in blacklist
+            messages.info(request, 'You should not be here.')
+            return redirect('/login')
+        else:  # Not in black list username can go to login
             if user is not None:
+                black_list_user.flag1 = False
+                black_list_user.flag2 = False
+                black_list_user.save()
                 login(request, user)
                 return redirect('home')
             else:
-                BlackList.objects.create(list=username)
-                # Put the username in to BlackList
+                black_list_user.flag3 = True
+                black_list_user.save()
                 messages.info(request, 'Username in black list now, please contact admin')
 
     context = {}
@@ -100,15 +112,29 @@ def login2(request):
         username = request.POST.get('username')  # Get username input first
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
-        if username in BL:  # Check if the username is in blacklist
-            messages.info(request, 'Username in black list, please contact admin')
-        else:  # Not in black list username can go to login
+        BL = BlackList.objects.values_list('username', flat=True)  # Read all data into array
 
+        if username not in BL:  # Check if the username is in blacklist
+            messages.info(request, 'You should not be here.')
+            return redirect('/login')
+
+        black_list_user = BlackList.objects.get(username=username)
+
+        if black_list_user.flag1 is False:  # Check if the username is in blacklist
+            messages.info(request, 'You should not be here.')
+            return redirect('/login')
+        elif black_list_user.flag2 is True:
+            messages.info(request, 'Nice try, but you should not be here.')
+            return redirect('/login3')
+        else:  # Not in black list username can go to login
             if user is not None:
+                black_list_user.flag1 = False
+                black_list_user.save()
                 login(request, user)
                 return redirect('home')
             else:
+                black_list_user.flag2 = True
+                black_list_user.save()
                 return redirect('/login3')
 
     context = {}
@@ -121,15 +147,32 @@ def loginPage(request):
         username = request.POST.get('username')  # Get username input first
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        BL = BlackList.objects.values_list('list', flat=True)  # Read all data into array
+        BL = BlackList.objects.values_list('username', flat=True)  # Read all data into array
+
         if username in BL:  # Check if the username is in blacklist
-            messages.info(request, 'Username in black list, please contact admin')
+            black_list_user = BlackList.objects.get(username=username)
+            if black_list_user.flag1 is True and black_list_user.flag2 is True:
+                messages.info(request, 'Nice try, but you should not be here.')
+                return redirect('/login3')
+            elif black_list_user.flag1 is True and black_list_user.flag2 is False:
+                messages.info(request, 'Nice try, but you should not be here.')
+                return redirect('/login2')
+            else:
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    black_list_user.flag1 = True
+                    black_list_user.save()
+                    return redirect('/login2')
+
         else:  # Not in black list username can go to login
 
             if user is not None:
                 login(request, user)
                 return redirect('home')
             else:
+                BlackList.objects.create(username=username, flag1=True, flag2=False, flag3=False)
                 return redirect('/login2')
 
     context = {}
