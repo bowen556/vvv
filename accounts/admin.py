@@ -4,7 +4,7 @@ from django.contrib.admin.models import LogEntry
 
 # Register your models here.
 from .models import *
-from .models import Entry, BlackList
+from .models import Entry, BlackList, Region
 from .forms import EntryForm
 
 # Register your models here.
@@ -33,7 +33,7 @@ class EntryAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Number of Images', {
             'fields': (
-            'Location_Name', 'locations', 'emergencycontacts', 'equipment_details', 'Agent_Company', 'agent_details',
+            'Location_Name', 'region','locations', 'emergencycontacts', 'equipment_details', 'Agent_Company', 'agent_details',
             'base_details', 'notice_period', 'support_craft_details', 'Provider_company', 'tug_provider_details',
             'area_details', 'navigational_hazards', 'met_ocean_conditions', 'environmental_details', 'degrees_latitude', 'minutes_latitude',
             'seconds_latitude','degrees_longitude', 'minutes_longitude', 'seconds_longitude', 'STS_Latitude','STS_Longitude',
