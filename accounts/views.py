@@ -48,7 +48,9 @@ def viewlocations(request, pk):
 @login_required(login_url='login')
 def Region(request, cats):
     region_locations = Entry.objects.filter(region=cats)
-    context = {'cats':cats.title(), 'region_locations':region_locations}
+    entryFilter = EntryFilter(request.GET, queryset=region_locations)
+    region_locations = entryFilter.qs
+    context = {'region_locations':region_locations, 'entryFilter':entryFilter}
     return render(request, 'accounts/region.html', context)
 
 
