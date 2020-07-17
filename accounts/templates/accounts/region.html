@@ -1,11 +1,12 @@
 {% extends 'accounts/main.html' %}
 {% block content %}
+{% load static %}
 
     <br>
 
 		<div class="row">
-			<div class="col-md">
-				<div class="card card-body">
+			<div class="col-md" style="background-color:#FFCE1B;">
+				<div class="card card-body" style="background-color:#FFCE1B;" >
 					<form method="get">
                         {{entryFilter.form}}
                     <button class="btn btn-primary" type="submit">Search</button>
